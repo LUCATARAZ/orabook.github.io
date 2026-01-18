@@ -1,3 +1,4 @@
-v=20240119.2
-mobile=force
+version=20240119.3
+build=1741600542
+mobile_force=true
 timestamp=1741600542000

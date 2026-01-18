@@ -7,55 +7,56 @@
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="last-modified" content="Mon, 19 Jan 2026 20:30:00 GMT">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Artista Poliglotta">
     <!-- ==================== FINE META ==================== -->
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SCRIPT ANTI-CACHE GITHUB PAGES POTENZIATO -->
+    <!-- SCRIPT ANTI-CACHE GITHUB PAGES - ULTRA-AGGRESSIVO -->
     <script>
     (function() {
-        // VERSIONE CORRENTE - Aggiorna ad ogni deploy
-        const GITHUB_BUILD_VERSION = '20240119.5';
+        // VARIABILE DINAMICA - SARA' SOSTITUITA DAL WORKFLOW
+        const GITHUB_BUILD_VERSION = '{{GITHUB_BUILD_ID}}';
+        
         const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isGitHubPages = window.location.hostname.includes('github.io');
         
-        console.log('🚀 GitHub Pages Cache System v5');
-        console.log(`📱 Mobile: ${isMobile}, 🌐 GitHub: ${isGitHubPages}`);
+        console.log('🚀 GitHub Pages Cache Buster - Build:', GITHUB_BUILD_VERSION);
+        console.log('📱 Mobile:', isMobile, '🌐 GitHub Pages:', isGitHubPages);
         
-        // Funzione principale per forzare cache mobile
-        function forceMobileCacheRefresh() {
-            if (isMobile && isGitHubPages) {
-                console.log('📱 Applicando fix cache per GitHub Pages Mobile...');
+        // FUNZIONE PER FORZARE REFRESH SU GITHUB PAGES
+        function forceGitHubPagesRefresh() {
+            if (!isGitHubPages) return false;
+            
+            const url = new URL(window.location.href);
+            const params = url.searchParams;
+            const currentBuild = params.get('gh_build');
+            
+            // Se il build ID nella URL è diverso da quello corrente, o manca
+            if (!currentBuild || currentBuild !== GITHUB_BUILD_VERSION) {
+                console.log('🔄 Build ID cambiato o mancante. Forzando refresh...');
                 
-                const currentUrl = new URL(window.location.href);
-                const params = currentUrl.searchParams;
+                // Aggiungi/aggiorna tutti i parametri cache busting
+                params.set('gh_build', GITHUB_BUILD_VERSION);
+                params.set('t', Date.now());
+                params.set('v', GITHUB_BUILD_VERSION);
+                params.set('cache', 'bust');
+                params.set('github_pages', 'true');
                 
-                // Controlla se abbiamo già i parametri di cache busting
-                const hasCacheParams = params.has('gh_build') || params.has('mobile_force') || params.has('v');
-                
-                if (!hasCacheParams) {
-                    // Aggiungi parametri di cache busting
-                    params.set('gh_build', GITHUB_BUILD_VERSION);
+                // Per mobile, aggiungi parametri extra
+                if (isMobile) {
                     params.set('mobile_force', Date.now());
-                    params.set('v', GITHUB_BUILD_VERSION);
-                    params.set('t', Date.now());
-                    params.set('cache', 'bust');
-                    params.set('github_pages', 'true');
+                    params.set('mobile', 'true');
                     
-                    console.log('🔄 Forzando refresh cache mobile GitHub Pages...');
-                    
-                    // Pulisci cache locale eccetto dati importanti
+                    // Pulisci cache locale (tranne dati importanti)
                     const importantKeys = [
                         'artistaPoliglotta_user',
                         'artistaPoliglotta_logo', 
                         'artistaPoliglotta_books',
                         'artistaPoliglotta_texts',
-                        'artistaPoliglotta_backgrounds',
-                        'artista_mobile_force_v3'
+                        'artistaPoliglotta_backgrounds'
                     ];
                     
                     Object.keys(localStorage).forEach(key => {
@@ -64,9 +65,7 @@
                         }
                     });
                     
-                    sessionStorage.clear();
-                    
-                    // Pulisci cache API se disponibile
+                    // Pulisci tutte le cache
                     if ('caches' in window) {
                         caches.keys().then(cacheNames => {
                             cacheNames.forEach(cacheName => {
@@ -74,74 +73,76 @@
                             });
                         });
                     }
-                    
-                    // Reindirizza alla nuova URL (replace per non aggiungere alla history)
+                }
+                
+                // Reindirizza SE la URL è cambiata
+                if (url.toString() !== window.location.href) {
+                    console.log('📍 Reindirizzando a:', url.toString());
                     setTimeout(() => {
-                        window.location.replace(currentUrl.toString());
-                    }, 300);
-                } else {
-                    console.log('✅ Parametri cache già presenti');
+                        window.location.replace(url.toString());
+                    }, 100);
+                    return true;
                 }
             }
+            return false;
         }
         
-        // Esegui immediatamente se siamo su GitHub Pages e mobile
-        if (isMobile && isGitHubPages) {
-            forceMobileCacheRefresh();
+        // Esegui immediatamente
+        if (isGitHubPages) {
+            const shouldRedirect = forceGitHubPagesRefresh();
+            
+            // Se non siamo redirectati, controlla periodicamente
+            if (!shouldRedirect) {
+                // Controlla ogni 10 secondi se siamo su GitHub Pages
+                setInterval(() => {
+                    if (document.visibilityState === 'visible') {
+                        forceGitHubPagesRefresh();
+                    }
+                }, 10000);
+            }
         }
         
         // Aggiungi timestamp a tutti gli asset locali
         document.addEventListener('DOMContentLoaded', function() {
-            const timestamp = Date.now();
-            const elements = document.querySelectorAll('link[rel="stylesheet"], script[src]');
-            
-            elements.forEach(el => {
-                try {
-                    const src = el.href || el.src;
-                    if (src && !src.includes('cdnjs.cloudflare.com') && !src.includes('fonts.googleapis.com') && src.includes(window.location.hostname)) {
-                        const url = new URL(src, window.location.origin);
-                        if (!url.searchParams.has('v')) {
-                            url.searchParams.set('v', timestamp);
-                            if (el.href) el.href = url.toString();
-                            if (el.src) el.src = url.toString();
-                        }
-                    }
-                } catch(e) {}
-            });
-            
-            // Force reload immagini dopo un secondo
-            setTimeout(() => {
-                document.querySelectorAll('img').forEach(img => {
-                    if (img.src && img.src.includes(window.location.hostname) && !img.src.includes('?')) {
-                        img.src += '?v=' + timestamp;
-                    }
-                });
-            }, 1000);
-        });
-        
-        // Force reload quando la pagina torna visibile (da background)
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden && isMobile && isGitHubPages) {
-                const lastVisible = parseInt(localStorage.getItem('last_visible') || '0');
-                const now = Date.now();
+            if (isGitHubPages) {
+                const timestamp = Date.now();
                 
-                if (now - lastVisible > 30000) { // 30 secondi
-                    localStorage.setItem('last_visible', now.toString());
-                    console.log('🔄 Pagina tornata visibile dopo background, forzando refresh...');
-                    forceMobileCacheRefresh();
-                }
+                // Cache busting per CSS e JS locali
+                document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                    try {
+                        if (link.href && link.href.includes(window.location.hostname)) {
+                            const url = new URL(link.href);
+                            if (!url.searchParams.has('v')) {
+                                url.searchParams.set('v', timestamp);
+                                link.href = url.toString();
+                            }
+                        }
+                    } catch(e) {}
+                });
+                
+                // Force reload immagini
+                setTimeout(() => {
+                    document.querySelectorAll('img').forEach(img => {
+                        if (img.src && img.src.includes(window.location.hostname)) {
+                            const url = new URL(img.src);
+                            if (!url.searchParams.has('t')) {
+                                url.searchParams.set('t', timestamp);
+                                img.src = url.toString();
+                            }
+                        }
+                    });
+                }, 500);
             }
         });
         
-        // Gestisci back/forward cache
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted && isMobile && isGitHubPages) {
-                console.log('🔄 Pagina ripristinata da cache browser, forzando reload...');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 100);
+        // Ascolta eventi di visibility change (utile per mobile)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && isGitHubPages && isMobile) {
+                console.log('👁️ Pagina tornata visibile, verificando cache...');
+                setTimeout(() => forceGitHubPagesRefresh(), 500);
             }
         });
+        
     })();
     </script>
    
@@ -1071,34 +1072,9 @@
             .logo-preview { flex-direction: column; text-align: center; gap: 10px; }
             .logo-preview i, .logo-preview img { margin-right: 0; margin-bottom: 10px; }
         }
-        
-        /* ==================== GITHUB PAGES DEBUG ==================== */
-        .github-debug {
-            position: fixed;
-            bottom: 90px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            z-index: 9997;
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .github-debug {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- DEBUG INFO PER GITHUB PAGES -->
-    <div class="github-debug" id="githubDebug">
-        GitHub Pages Mobile
-    </div>
-    
     <!-- PULSANTE CACHE MOBILE -->
     <button class="mobile-cache-btn" id="mobileCacheBtn" title="Pulisci cache mobile">
         <i class="fas fa-sync-alt"></i>
@@ -1372,14 +1348,6 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const mobileCacheBtn = document.getElementById('mobileCacheBtn');
-        const githubDebug = document.getElementById('githubDebug');
-        
-        // Aggiorna debug info
-        if (githubDebug) {
-            const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isGitHub = window.location.hostname.includes('github.io');
-            githubDebug.textContent = `GitHub: ${isGitHub} | Mobile: ${isMobile}`;
-        }
         
         if (mobileCacheBtn) {
             mobileCacheBtn.addEventListener('click', function() {
@@ -1401,11 +1369,9 @@
             'artistaPoliglotta_logo', 
             'artistaPoliglotta_books',
             'artistaPoliglotta_texts',
-            'artistaPoliglotta_backgrounds',
-            'artista_mobile_force_v3'
+            'artistaPoliglotta_backgrounds'
         ];
         
-        // Pulisci tutto tranne dati importanti
         Object.keys(localStorage).forEach(key => {
             if (!importantKeys.includes(key)) {
                 localStorage.removeItem(key);
@@ -1414,7 +1380,6 @@
         
         sessionStorage.clear();
         
-        // Pulisci tutte le cache API
         if ('caches' in window) {
             caches.keys().then(cacheNames => {
                 cacheNames.forEach(cacheName => {
@@ -1423,40 +1388,25 @@
             });
         }
         
-        // Rimuovi service workers
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                    registration.unregister();
-                }
-            });
-        }
-        
         setTimeout(() => {
             const timestamp = Date.now();
             const newUrl = new URL(window.location.href);
             
-            // Rimuovi tutti i vecchi parametri
             newUrl.searchParams.delete('v');
             newUrl.searchParams.delete('t');
             newUrl.searchParams.delete('mobile');
             newUrl.searchParams.delete('cache');
-            newUrl.searchParams.delete('gh_build');
-            newUrl.searchParams.delete('mobile_force');
             
-            // Aggiungi nuovi parametri di cache busting
             newUrl.searchParams.set('mobile_force', timestamp);
             newUrl.searchParams.set('v', timestamp);
             newUrl.searchParams.set('t', timestamp);
             newUrl.searchParams.set('cache', 'bust');
-            newUrl.searchParams.set('gh_build', '20240119.5');
             newUrl.searchParams.set('cleared', 'true');
-            newUrl.searchParams.set('github_force', 'true');
             
             showNotification('✅ Cache pulita! Ricaricamento...', 'success');
             
             setTimeout(() => {
-                window.location.replace(newUrl.toString());
+                window.location.href = newUrl.toString();
             }, 1500);
         }, 1000);
     }
@@ -1522,11 +1472,6 @@
             renderBooks();
             setupIconOptions();
             setupEventListeners();
-            
-            // Debug info
-            console.log('🚀 Artista Poliglotta v5 - GitHub Pages Ready');
-            console.log('📱 Mobile:', /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-            console.log('🌐 GitHub Pages:', window.location.hostname.includes('github.io'));
         });
 
         function initApp() {

@@ -7,7 +7,7 @@
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="last-modified" content="Mon, 19 Jan 2026 20:30:00 GMT">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- ==================== FINE META ==================== -->
     
@@ -146,7 +146,7 @@
     })();
     </script>
    
-    <title>Artista Poliglotta | Creatività Multidisciplinare</title>
+    <title>Orà L'Artista | Creatività Senza Confini</title>
   
     <!-- LIBRERIE ESTERNE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=20240119">
@@ -326,6 +326,137 @@
         .logout-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(214, 48, 49, 0.3);
+        }
+        
+        /* MODALE PER MODIFICHE GITHUB (NUOVA) */
+        .github-edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 11, 46, 0.98);
+            z-index: 2003;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .github-edit-content {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            animation: modalFade 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .github-edit-content h2 {
+            color: var(--indigo-dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .github-edit-content textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 20px;
+            border: 2px solid #e6e1ff;
+            border-radius: 10px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            margin-bottom: 25px;
+        }
+        
+        .github-edit-content textarea:focus {
+            border-color: var(--indigo-medium);
+            outline: none;
+        }
+        
+        .github-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .github-save-btn, .github-cancel-btn, .github-open-btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .github-save-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+        }
+        
+        .github-save-btn:hover {
+            background: linear-gradient(135deg, #00a085, #008b74);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 168, 133, 0.3);
+        }
+        
+        .github-cancel-btn {
+            background: #f8f7ff;
+            color: #666;
+            border: 2px solid #e6e1ff;
+        }
+        
+        .github-cancel-btn:hover {
+            background: #e6e1ff;
+            color: var(--indigo-dark);
+        }
+        
+        .github-open-btn {
+            background: linear-gradient(135deg, #24292e, #2d333b);
+            color: white;
+        }
+        
+        .github-open-btn:hover {
+            background: linear-gradient(135deg, #2d333b, #24292e);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(36, 41, 46, 0.3);
+        }
+        
+        /* Pulsante Modifica Rapida */
+        .quick-edit-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6a23cc, #8a4dff);
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 5px 20px rgba(81, 0, 188, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        .quick-edit-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(81, 0, 188, 0.6);
         }
         
         /* Admin Modal */
@@ -1071,6 +1202,8 @@
             .admin-tabs { flex-direction: column; }
             .logo-preview { flex-direction: column; text-align: center; gap: 10px; }
             .logo-preview i, .logo-preview img { margin-right: 0; margin-bottom: 10px; }
+            .github-buttons { flex-direction: column; }
+            .github-save-btn, .github-cancel-btn, .github-open-btn { width: 100%; }
         }
     </style>
 </head>
@@ -1078,6 +1211,11 @@
     <!-- PULSANTE CACHE MOBILE -->
     <button class="mobile-cache-btn" id="mobileCacheBtn" title="Pulisci cache mobile">
         <i class="fas fa-sync-alt"></i>
+    </button>
+    
+    <!-- PULSANTE MODIFICA RAPIDA -->
+    <button class="quick-edit-btn" id="quickEditBtn" title="Modifica questa pagina">
+        <i class="fas fa-code"></i>
     </button>
 
     <!-- Header -->
@@ -1087,7 +1225,7 @@
                 <a href="#home" class="logo-container">
                     <i class="fas logo-icon" id="logoIcon"></i>
                     <img id="logoImg" class="logo-img">
-                    <span class="logo-text" id="logoText">Artista Poliglotta</span>
+                    <span class="logo-text" id="logoText">Orà L'Artista</span>
                 </a>
                 
                 <ul class="nav-links">
@@ -1097,6 +1235,27 @@
             </nav>
         </div>
     </header>
+
+    <!-- MODALE GITHUB EDIT -->
+    <div class="github-edit-modal" id="githubEditModal">
+        <div class="github-edit-content">
+            <span class="close-admin-modal" id="closeGithubModal">&times;</span>
+            <h2>Modifica Pagina su GitHub</h2>
+            <textarea id="githubEditContent" placeholder="Incolla qui il codice HTML modificato..."></textarea>
+            <div class="github-buttons">
+                <button class="github-save-btn" id="githubSaveBtn">
+                    <i class="fas fa-save"></i> Salva su GitHub
+                </button>
+                <button class="github-open-btn" id="githubOpenBtn">
+                    <i class="fab fa-github"></i> Apri su GitHub
+                </button>
+                <button class="github-cancel-btn" id="githubCancelBtn">
+                    <i class="fas fa-times"></i> Annulla
+                </button>
+            </div>
+            <div id="githubStatus" style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;"></div>
+        </div>
+    </div>
 
     <!-- Notifications Container -->
     <div id="notificationContainer"></div>
@@ -1143,7 +1302,7 @@
                     <div class="logo-preview">
                         <i id="logoPreviewIcon" class="fas fa-crown"></i>
                         <img id="logoPreviewImg">
-                        <span id="logoPreviewText">Artista Poliglotta</span>
+                        <span id="logoPreviewText">Orà L'Artista</span>
                     </div>
                 </div>
                 
@@ -1182,7 +1341,7 @@
                     <h4>Testo Logo</h4>
                     <div class="form-group">
                         <label for="logoTextInput">Testo</label>
-                        <input type="text" id="logoTextInput" value="Artista Poliglotta">
+                        <input type="text" id="logoTextInput" value="Orà L'Artista">
                     </div>
                 </div>
                 
@@ -1318,8 +1477,8 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1 id="heroTitle">Artista Poliglotta: Creatività Senza Confini</h1>
-                <p id="heroDescription">Esplora l'universo creativo di un artista che domina linguaggi multipli: dalla parola scritta alla pittura, dalla musica alla programmazione. Un viaggio attraverso l'intersezione tra arte, tecnologia e comunicazione.</p>
+                <h1 id="heroTitle">Orà L'Artista: Creatività Senza Confini</h1>
+                <p id="heroDescription">Esplora l'universo creativo di un artista che domina linguaggi multipli. Un viaggio attraverso l'intersezione tra arte, tecnologia e comunicazione.</p>
                 <div class="hero-badges">
                     <span class="badge">Scrittore Multilingue</span>
                     <span class="badge">Artista Visivo</span>
@@ -1417,12 +1576,17 @@
             adminUsername: "GTG",
             adminPassword: "Taraz1973*",
             defaultLogoIcon: "crown",
-            defaultLogoText: "Artista Poliglotta",
-            defaultHeroBg: "", // RIMOSSO: non c'è più immagine di default!
+            defaultLogoText: "Orà L'Artista",
+            defaultHeroBg: "",
             defaultBooksBg: "",
             recoveryEmail: "info@gotogods.com",
             maxLogoSize: 100,
-            acceptedLogoFormats: ['.png', '.jpg', '.jpeg', '.svg']
+            acceptedLogoFormats: ['.png', '.jpg', '.jpeg', '.svg'],
+            // CONFIGURAZIONE GITHUB - MODIFICA QUESTI VALORI!
+            githubOwner: "GiovanniTarasco",
+            githubRepo: "ora-artista",
+            githubBranch: "main",
+            githubFile: "index.html"
         };
 
         let books = [
@@ -1472,6 +1636,7 @@
             renderBooks();
             setupIconOptions();
             setupEventListeners();
+            setupGitHubEdit();
         });
 
         function initApp() {
@@ -1882,6 +2047,101 @@
             });
         }
 
+        function setupGitHubEdit() {
+            const quickEditBtn = document.getElementById('quickEditBtn');
+            const githubEditModal = document.getElementById('githubEditModal');
+            const closeGithubModal = document.getElementById('closeGithubModal');
+            const githubCancelBtn = document.getElementById('githubCancelBtn');
+            const githubSaveBtn = document.getElementById('githubSaveBtn');
+            const githubOpenBtn = document.getElementById('githubOpenBtn');
+            
+            quickEditBtn.addEventListener('click', () => {
+                // Carica il contenuto HTML corrente nel textarea
+                document.getElementById('githubEditContent').value = document.documentElement.outerHTML;
+                githubEditModal.style.display = 'flex';
+            });
+            
+            closeGithubModal.addEventListener('click', () => {
+                githubEditModal.style.display = 'none';
+            });
+            
+            githubCancelBtn.addEventListener('click', () => {
+                githubEditModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === githubEditModal) {
+                    githubEditModal.style.display = 'none';
+                }
+            });
+            
+            // Apri direttamente su GitHub (modalità semplice)
+            githubOpenBtn.addEventListener('click', () => {
+                const githubUrl = `https://github.com/${CONFIG.githubOwner}/${CONFIG.githubRepo}/edit/${CONFIG.githubBranch}/${CONFIG.githubFile}`;
+                window.open(githubUrl, '_blank');
+                showNotification('Apri la pagina di GitHub, incolla il nuovo codice e fai "Commit"', 'info');
+                githubEditModal.style.display = 'none';
+            });
+            
+            // Salvataggio automatico su GitHub (richiede backend)
+            githubSaveBtn.addEventListener('click', () => {
+                const newContent = document.getElementById('githubEditContent').value;
+                const message = prompt("Messaggio di commit:", "Aggiornamento dalla pagina web");
+                
+                if (!message) return;
+                
+                saveToGitHub(newContent, message);
+            });
+        }
+        
+        function saveToGitHub(content, message) {
+            const status = document.getElementById('githubStatus');
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio in corso...';
+            status.style.color = '#666';
+            
+            // URL del tuo backend - DEVI CREARE QUESTO SERVER!
+            // Esempio: https://tuo-server.com/update-github
+            const backendUrl = 'https://tuo-backend-server.com/update-github';
+            
+            fetch(backendUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    owner: CONFIG.githubOwner,
+                    repo: CONFIG.githubRepo,
+                    file: CONFIG.githubFile,
+                    content: btoa(content), // Codifica in base64
+                    message: message,
+                    branch: CONFIG.githubBranch
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    status.innerHTML = '<i class="fas fa-check-circle"></i> Salvato con successo!';
+                    status.style.color = '#00b894';
+                    showNotification('Pagina aggiornata su GitHub! La modifica sarà visibile tra pochi minuti.', 'success');
+                    
+                    setTimeout(() => {
+                        document.getElementById('githubEditModal').style.display = 'none';
+                        location.reload();
+                    }, 2000);
+                } else {
+                    status.innerHTML = `<i class="fas fa-exclamation-circle"></i> Errore: ${data.error}`;
+                    status.style.color = '#d63031';
+                    showNotification('Errore nel salvataggio su GitHub', 'error');
+                }
+            })
+            .catch(error => {
+                status.innerHTML = `<i class="fas fa-exclamation-circle"></i> Errore di connessione`;
+                status.style.color = '#d63031';
+                showNotification('Impossibile connettersi al server', 'error');
+                console.error('GitHub save error:', error);
+            });
+        }
+
         function showAdminPanels() {
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 if (tab.getAttribute('data-tab') !== 'login') {
@@ -2083,24 +2343,24 @@
 
         function shareOnFacebook(title) {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            const text = encodeURIComponent(`Scopri "${title}" su Orà L'Artista!`);
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
         }
 
         function shareOnTwitter(title) {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            const text = encodeURIComponent(`Scopri "${title}" su Orà L'Artista!`);
             window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
         }
 
         function shareOnLinkedIn(title) {
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            const text = encodeURIComponent(`Scopri "${title}" su Orà L'Artista!`);
             window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`, '_blank');
         }
 
         function shareOnWhatsApp(title) {
-            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta! ${window.location.href}`);
+            const text = encodeURIComponent(`Scopri "${title}" su Orà L'Artista! ${window.location.href}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 

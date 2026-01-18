@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artista Poliglotta | Creatività Multidisciplinare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* TUTTI GLI STILI ORIGINALI */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --indigo-dark: #5100bc;
+            --indigo-medium: #6a23cc;
+            --indigo-light: #8a4dff;
+            --indigo-very-light: #b18cff;
+            --indigo-gradient: linear-gradient(135deg, #5100bc 0%, #6a23cc 50%, #8a4dff 100%);
+            --indigo-gradient-light: linear-gradient(135deg, #6a23cc 0%, #8a4dff 100%);
+            --light-color: #f8f7ff;
+            --dark-color: #1a0b2e;
+            --text-light: #ffffff;
+            --text-dark: #2d1b4e;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: var(--indigo-gradient);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(81, 0, 188, 0.3);
+            padding: 15px 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            color: white;
+        }
+        
+        .logo-img {
+            max-width: 40px;
+            max-height: 40px;
+            margin-right: 10px;
+            display: none;
+        }
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .settings-btn i {
+            margin-right: 8px;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(214, 48, 49, 0.3);
+        }
+        
+        /* Admin Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 11, 46, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .admin-modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            animation: modalFade 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .close-admin-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #888;
+            transition: var(--transition);
+        }
+        
+        .close-admin-modal:hover {
+            color: var(--indigo-dark);
+        }
+        
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #666;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .admin-tab.active {
+            color: var(--indigo-dark);
+        }
+        
+        .admin-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--indigo-gradient);
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .admin-panel.active {
+            display: block;
+        }
+        
+        .admin-panel h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--indigo-dark);
+            text-align: center;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--indigo-dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e6e1ff;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--indigo-medium);
+            outline: none;
+        }
+        
+        .admin-button {
+            width: 100%;
+            background: var(--indigo-gradient);
+            color: white;
+            padding: 18px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .admin-button:hover {
+            background: var(--indigo-gradient-light);
+            box-shadow: 0 10px 20px rgba(81, 0, 188, 0.3);
+        }
+        
+        /* Books List in Admin */
+        .books-list {
+            margin-bottom: 30px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .book-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .book-item:last-child {
+            border-bottom: none;
+        }
+        
+        .book-item-info h4 {
+            margin-bottom: 5px;
+            color: var(--indigo-dark);
+        }
+        
+        /* MODIFICA 1: Titolo del libro visibile */
+        .book-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--indigo-dark);
+            margin-bottom: 5px;
+        }
+        
+        .book-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .edit-btn {
+            background: #e6e1ff;
+            color: var(--indigo-dark);
+        }
+        
+        .delete-btn {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        
+        .edit-btn:hover, .delete-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Logo Edit Section */
+        .logo-edit-section, .text-edit-item, .bg-edit-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9ff;
+            border-radius: 10px;
+        }
+        
+        .logo-edit-section h4, .text-edit-item label, .bg-edit-section h4 {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--indigo-dark);
+        }
+        
+        .text-edit-item textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e6e1ff;
+        }
+        
+        .logo-preview i {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--indigo-medium);
+        }
+        
+        .logo-preview img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 15px;
+            display: none;
+            object-fit: contain;
+        }
+        
+        .logo-preview span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--indigo-dark);
+        }
+        
+        .icon-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .icon-option {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 2px solid #e6e1ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.5rem;
+            color: var(--indigo-medium);
+        }
+        
+        .icon-option:hover, .icon-option.selected {
+            border-color: var(--indigo-medium);
+            background: rgba(81, 0, 188, 0.05);
+        }
+        
+        .save-all-btn {
+            background: var(--indigo-gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .save-all-btn:hover {
+            background: var(--indigo-gradient-light);
+            box-shadow: 0 10px 20px rgba(81, 0, 188, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        /* File Upload Styling */
+        .file-upload-container {
+            margin-top: 15px;
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0ff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .file-requirements {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: var(--indigo-gradient-light);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .file-input-button:hover {
+            background: var(--indigo-gradient);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--indigo-gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-top: 70px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 600px;
+        }
+        
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--indigo-dark);
+            padding: 16px 45px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: var(--light-color);
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--indigo-dark);
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--indigo-gradient);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* Background overlay */
+        .section-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 11, 46, 0.7);
+        }
+        
+        .section-inner {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Books Section */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(81, 0, 188, 0.1);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(81, 0, 188, 0.2);
+        }
+        
+        .book-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .book-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .book-card:hover .book-image img {
+            transform: scale(1.05);
+        }
+        
+        .book-info {
+            padding: 30px;
+        }
+        
+        .book-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--indigo-dark);
+        }
+        
+        .book-info p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .book-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--indigo-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .buy-button {
+            display: block;
+            width: 100%;
+            background: var(--indigo-gradient);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .buy-button:hover {
+            background: var(--indigo-gradient-light);
+            box-shadow: 0 10px 20px rgba(81, 0, 188, 0.3);
+        }
+        
+        /* Book Card Actions */
+        .book-card-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        
+        .book-card:hover .book-card-actions {
+            opacity: 1;
+        }
+        
+        .card-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .card-action-btn.preview {
+            background: rgba(106, 35, 204, 0.9);
+        }
+        
+        .card-action-btn.share {
+            background: rgba(39, 174, 96, 0.9);
+        }
+        
+        .card-action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Book Synopsis Button */
+        .book-synopsis-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .book-synopsis-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 184, 148, 0.3);
+        }
+        
+        /* Book Preview Modal */
+        .book-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 11, 46, 0.95);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .book-preview-content {
+            background-color: white;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            animation: modalFade 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        /* Social Share Buttons */
+        .social-share-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .share-facebook { background: #3b5998; }
+        .share-twitter { background: #1da1f2; }
+        .share-linkedin { background: #0077b5; }
+        .share-whatsapp { background: #25d366; }
+        .share-pinterest { background: #bd081c; }
+        
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 300px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #00b894, #00a085);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #d63031, #c0392b);
+        }
+        
+        .notification.info {
+            background: linear-gradient(135deg, #0984e3, #0767b3);
+        }
+        
+        /* Password Modal */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 11, 46, 0.95);
+            z-index: 2002;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        /* PDF Preview */
+        .pdf-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e6e1ff;
+        }
+        
+        .pdf-preview a {
+            color: var(--indigo-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        /* Background Preview */
+        .bg-preview {
+            width: 100px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 10px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #e6e1ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .section-title h2 { font-size: 2.2rem; }
+            .admin-modal-content { padding: 30px 20px; }
+            .admin-tabs { flex-direction: column; }
+            .logo-preview { flex-direction: column; text-align: center; gap: 10px; }
+            .logo-preview i, .logo-preview img { margin-right: 0; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#home" class="logo-container">
+                    <i class="fas logo-icon" id="logoIcon"></i>
+                    <img id="logoImg" class="logo-img">
+                    <span class="logo-text" id="logoText">Artista Poliglotta</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><button class="settings-btn" id="settingsBtn"><i class="fas fa-cog"></i> Settings</button></li>
+                    <li><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Notifications Container -->
+    <div id="notificationContainer"></div>
+
+    <!-- Admin Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" id="closeAdminModal">&times;</span>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="login">Login</button>
+                <button class="admin-tab" data-tab="logo" style="display:none;">Logo</button>
+                <button class="admin-tab" data-tab="background" style="display:none;">Sfondi</button>
+                <button class="admin-tab" data-tab="books" style="display:none;">Libri</button>
+                <button class="admin-tab" data-tab="texts" style="display:none;">Testi</button>
+                <button class="admin-tab" data-tab="social" style="display:none;">Social</button>
+            </div>
+            
+            <!-- Login Panel -->
+            <div class="admin-panel active" id="loginPanel">
+                <h3>Accedi all'Amministrazione</h3>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="admin-button">Accedi</button>
+                    <p style="text-align:center; margin-top:15px; color:#666;">Credenziali: GTG / Taraz1973*</p>
+                    <p style="text-align:center; margin-top:10px;">
+                        <a href="mailto:info@gotogods.com" id="forgotPassword" style="color:var(--indigo-medium);">Password dimenticata?</a>
+                    </p>
+                </form>
+            </div>
+            
+            <!-- Logo Panel -->
+            <div class="admin-panel" id="logoPanel">
+                <h3>Modifica Logo</h3>
+                <div class="logo-edit-section">
+                    <h4>Anteprima</h4>
+                    <div class="logo-preview">
+                        <i id="logoPreviewIcon" class="fas fa-crown"></i>
+                        <img id="logoPreviewImg">
+                        <span id="logoPreviewText">Artista Poliglotta</span>
+                    </div>
+                </div>
+                
+                <div class="logo-edit-section">
+                    <h4>Seleziona Icona</h4>
+                    <div class="icon-options" id="iconOptions"></div>
+                    <div class="form-group">
+                        <label for="customIcon">Icona Personalizzata</label>
+                        <input type="text" id="customIcon" placeholder="Es: crown, book, palette">
+                    </div>
+                </div>
+                
+                <div class="logo-edit-section">
+                    <h4>Carica Logo Personalizzato</h4>
+                    <div class="file-upload-container">
+                        <div class="file-input-wrapper">
+                            <button class="file-input-button">
+                                <i class="fas fa-upload"></i> Carica Logo
+                            </button>
+                            <input type="file" id="logoFileInput" accept=".png,.jpg,.jpeg,.svg" onchange="handleLogoUpload(event)">
+                        </div>
+                        <div class="file-info">
+                            <p><strong>Formati accettati:</strong> PNG, JPG, JPEG, SVG</p>
+                            <p><strong>Dimensione massima:</strong> 100x100 pixel</p>
+                            <p class="file-requirements">Il logo verrà ridimensionato automaticamente se supera le dimensioni consentite.</p>
+                        </div>
+                    </div>
+                    <div id="logoFileInfo" class="file-info" style="display:none; margin-top:15px;">
+                        <p><strong>File selezionato:</strong> <span id="logoFileName"></span></p>
+                        <p><strong>Dimensione:</strong> <span id="logoFileSize"></span></p>
+                        <p><strong>Dimensioni immagine:</strong> <span id="logoFileDimensions"></span></p>
+                    </div>
+                </div>
+                
+                <div class="logo-edit-section">
+                    <h4>Testo Logo</h4>
+                    <div class="form-group">
+                        <label for="logoTextInput">Testo</label>
+                        <input type="text" id="logoTextInput" value="Artista Poliglotta">
+                    </div>
+                </div>
+                
+                <button class="save-all-btn" id="saveLogoBtn">Salva Logo</button>
+            </div>
+            
+            <!-- Background Panel -->
+            <div class="admin-panel" id="backgroundPanel">
+                <h3>Modifica Sfondi</h3>
+                
+                <div class="bg-edit-section">
+                    <h4>Hero Section</h4>
+                    <div class="form-group">
+                        <label for="heroBgUrl">URL Immagine</label>
+                        <input type="text" id="heroBgUrl">
+                        <div id="heroBgPreview" class="bg-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-edit-section">
+                    <h4>Sezione Libri</h4>
+                    <div class="form-group">
+                        <label for="booksBgUrl">URL Immagine</label>
+                        <input type="text" id="booksBgUrl">
+                        <div id="booksBgPreview" class="bg-preview"></div>
+                    </div>
+                </div>
+                
+                <button class="save-all-btn" id="saveBgBtn">Salva Sfondi</button>
+            </div>
+            
+            <!-- Books Panel -->
+            <div class="admin-panel" id="booksPanel">
+                <h3>Gestione Libri</h3>
+                <div class="books-list" id="booksList"></div>
+                
+                <h4>Aggiungi Nuovo Libro</h4>
+                <form id="addBookForm">
+                    <div class="form-group">
+                        <label for="bookTitle">Titolo</label>
+                        <input type="text" id="bookTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookDescription">Descrizione</label>
+                        <textarea id="bookDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookSynopsis">Sinossi</label>
+                        <textarea id="bookSynopsis"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPrologue">Prologo</label>
+                        <textarea id="bookPrologue"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookBackCover">Quarta di Copertina</label>
+                        <textarea id="bookBackCover"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPrice">Prezzo (€)</label>
+                        <input type="number" id="bookPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookImage">URL Copertina</label>
+                        <input type="text" id="bookImage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPdf">PDF (opzionale)</label>
+                        <input type="file" id="bookPdf" accept=".pdf">
+                    </div>
+                    <button type="submit" class="admin-button">Aggiungi Libro</button>
+                </form>
+            </div>
+            
+            <!-- Texts Panel -->
+            <div class="admin-panel" id="textsPanel">
+                <h3>Modifica Testi</h3>
+                <div id="textsEditContainer"></div>
+                <button class="save-all-btn" id="saveAllTexts">Salva Testi</button>
+            </div>
+            
+            <!-- Social Panel -->
+            <div class="admin-panel" id="socialPanel">
+                <h3>Social Links</h3>
+                <form id="socialForm">
+                    <div class="form-group">
+                        <label for="socialFacebook">Facebook</label>
+                        <input type="text" id="socialFacebook" placeholder="https://facebook.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="socialInstagram">Instagram</label>
+                        <input type="text" id="socialInstagram" placeholder="https://instagram.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="socialTwitter">Twitter</label>
+                        <input type="text" id="socialTwitter" placeholder="https://twitter.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="socialLinkedin">LinkedIn</label>
+                        <input type="text" id="socialLinkedin" placeholder="https://linkedin.com/in/...">
+                    </div>
+                    <button type="submit" class="admin-button">Salva Social Links</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Preview Modal -->
+    <div class="book-preview-modal" id="bookPreviewModal">
+        <div class="book-preview-content">
+            <span class="close-admin-modal" id="closeBookPreview">&times;</span>
+            <div id="bookPreviewContent"></div>
+        </div>
+    </div>
+
+    <!-- Password Reset Modal -->
+    <div class="password-modal" id="passwordModal">
+        <div class="admin-modal-content" style="max-width: 500px;">
+            <span class="close-admin-modal" id="closePasswordModal">&times;</span>
+            <h3>Recupero Password</h3>
+            <form id="passwordResetForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email</label>
+                    <input type="email" id="resetEmail" required>
+                </div>
+                <button type="submit" class="admin-button">Invia Link di Recupero</button>
+                <p style="text-align:center; margin-top:15px; color:#666;">Riceverai un link per reimpostare la password all'indirizzo: info@gotogods.com</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 id="heroTitle">Artista Poliglotta: Creatività Senza Confini</h1>
+                <p id="heroDescription">Esplora l'universo creativo di un artista che domina linguaggi multipli: dalla parola scritta alla pittura, dalla musica alla programmazione. Un viaggio attraverso l'intersezione tra arte, tecnologia e comunicazione.</p>
+                <div class="hero-badges">
+                    <span class="badge">Scrittore Multilingue</span>
+                    <span class="badge">Artista Visivo</span>
+                    <span class="badge">Musicista</span>
+                    <span class="badge">Sviluppatore</span>
+                    <span class="badge">Pensatore Sistemico</span>
+                </div>
+                <a href="#books" class="cta-button" id="heroCta">Scopri i miei libri</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Section -->
+    <section id="books" style="background-color: var(--light-color);">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="booksTitle">I Miei Libri</h2>
+            </div>
+            <div class="books-grid" id="booksContainer">
+                <!-- I libri verranno aggiunti dinamicamente qui -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Configurazione iniziale
+        const CONFIG = {
+            adminUsername: "GTG",
+            adminPassword: "Taraz1973*",
+            defaultLogoIcon: "crown",
+            defaultLogoText: "Artista Poliglotta",
+            defaultHeroBg: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80",
+            defaultBooksBg: "",
+            recoveryEmail: "info@gotogods.com",
+            maxLogoSize: 100, // 100x100 pixels
+            acceptedLogoFormats: ['.png', '.jpg', '.jpeg', '.svg']
+        };
+
+        // Dati di esempio
+        let books = [
+            {
+                id: 1,
+                title: "Linguaggi della Creatività",
+                description: "Un'esplorazione dei diversi linguaggi artistici e della loro integrazione.",
+                synopsis: "In questo saggio, l'autore esplora come i diversi linguaggi creativi - dalla pittura alla musica, dalla scrittura alla programmazione - possano integrarsi per dare vita a nuove forme espressive.",
+                prologue: "La creatività non conosce confini. È un fiume che scorre tra discipline diverse...",
+                backCover: "Un libro fondamentale per chiunque voglia comprendere la natura interdisciplinare della creatività contemporanea.",
+                price: 24.90,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                title: "Codice e Poesia",
+                description: "L'intersezione tra programmazione e espressione poetica.",
+                synopsis: "Un'analisi innovativa che mostra come la logica del codice possa fondersi con la libertà dell'espressione poetica.",
+                prologue: "Nello spazio digitale, ogni riga di codice può essere un verso...",
+                backCover: "Una guida per poeti digitali e programmatori creativi.",
+                price: 29.90,
+                image: "https://images.unsplash.com/photo-1517697471339-4aa32003c11a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                title: "Polifonia Visuale",
+                description: "Tecniche avanzate per l'integrazione di suono e immagine.",
+                synopsis: "Un manuale pratico per artisti che vogliono fondere dimensioni sensoriali diverse in opere multimediali coerenti.",
+                prologue: "Il mondo è polifonico. Ogni immagine ha un suono, ogni suono evoca una forma...",
+                backCover: "Rivoluziona il tuo approccio all'arte multimediale.",
+                price: 34.90,
+                image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // Stato dell'applicazione
+        let currentUser = null;
+        let editingBookId = null;
+        let currentLogoFile = null;
+        let iconOptions = [
+            'crown', 'book', 'palette', 'music', 'code', 'pen-nib', 'brain', 
+            'globe', 'brush', 'keyboard', 'gem', 'star', 'feather', 'lightbulb'
+        ];
+
+        // Inizializzazione
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            loadFromLocalStorage();
+            renderBooks();
+            setupIconOptions();
+            setupEventListeners();
+        });
+
+        function initApp() {
+            // Controlla se l'utente è già loggato
+            const savedUser = localStorage.getItem('artistaPoliglotta_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                if (currentUser && currentUser.loggedIn) {
+                    showLogoutButton();
+                }
+            }
+        }
+
+        function loadFromLocalStorage() {
+            // Carica logo
+            const savedLogo = localStorage.getItem('artistaPoliglotta_logo');
+            if (savedLogo) {
+                const logo = JSON.parse(savedLogo);
+                
+                if (logo.type === 'image' && logo.imageData) {
+                    // Logo è un'immagine caricata
+                    document.getElementById('logoIcon').style.display = 'none';
+                    document.getElementById('logoImg').style.display = 'block';
+                    document.getElementById('logoImg').src = logo.imageData;
+                    document.getElementById('logoImg').alt = logo.text;
+                    
+                    // Aggiorna anche la preview
+                    document.getElementById('logoPreviewIcon').style.display = 'none';
+                    document.getElementById('logoPreviewImg').style.display = 'block';
+                    document.getElementById('logoPreviewImg').src = logo.imageData;
+                } else {
+                    // Logo è un'icona FontAwesome
+                    document.getElementById('logoIcon').style.display = 'block';
+                    document.getElementById('logoImg').style.display = 'none';
+                    document.getElementById('logoIcon').className = `fas fa-${logo.icon}`;
+                    
+                    // Aggiorna anche la preview
+                    document.getElementById('logoPreviewIcon').style.display = 'block';
+                    document.getElementById('logoPreviewIcon').className = `fas fa-${logo.icon}`;
+                    document.getElementById('logoPreviewImg').style.display = 'none';
+                }
+                
+                document.getElementById('logoText').textContent = logo.text;
+                document.getElementById('logoPreviewText').textContent = logo.text;
+                document.getElementById('logoTextInput').value = logo.text;
+                
+                if (logo.customIcon) {
+                    document.getElementById('customIcon').value = logo.customIcon;
+                }
+            } else {
+                // Logo predefinito
+                document.getElementById('logoIcon').className = `fas fa-${CONFIG.defaultLogoIcon}`;
+                document.getElementById('logoText').textContent = CONFIG.defaultLogoText;
+                document.getElementById('logoPreviewIcon').className = `fas fa-${CONFIG.defaultLogoIcon}`;
+                document.getElementById('logoPreviewText').textContent = CONFIG.defaultLogoText;
+                document.getElementById('logoTextInput').value = CONFIG.defaultLogoText;
+                document.getElementById('customIcon').value = CONFIG.defaultLogoIcon;
+            }
+
+            // Carica sfondi
+            const savedBackgrounds = localStorage.getItem('artistaPoliglotta_backgrounds');
+            if (savedBackgrounds) {
+                const backgrounds = JSON.parse(savedBackgrounds);
+                if (backgrounds.hero) {
+                    document.querySelector('.hero').style.backgroundImage = `url('${backgrounds.hero}'), var(--indigo-gradient)`;
+                    document.getElementById('heroBgUrl').value = backgrounds.hero;
+                    document.getElementById('heroBgPreview').style.backgroundImage = `url('${backgrounds.hero}')`;
+                }
+                if (backgrounds.books) {
+                    document.getElementById('books').style.backgroundImage = `url('${backgrounds.books}')`;
+                    document.getElementById('booksBgUrl').value = backgrounds.books;
+                    document.getElementById('booksBgPreview').style.backgroundImage = `url('${backgrounds.books}')`;
+                }
+            }
+
+            // Carica libri
+            const savedBooks = localStorage.getItem('artistaPoliglotta_books');
+            if (savedBooks) {
+                books = JSON.parse(savedBooks);
+            }
+
+            // Carica testi
+            const savedTexts = localStorage.getItem('artistaPoliglotta_texts');
+            if (savedTexts) {
+                const texts = JSON.parse(savedTexts);
+                for (const [id, text] of Object.entries(texts)) {
+                    const element = document.getElementById(id);
+                    if (element) element.textContent = text;
+                }
+            }
+        }
+
+        function saveToLocalStorage() {
+            // Salva logo
+            const logoIcon = document.getElementById('logoIcon').className.split('fa-')[1] || CONFIG.defaultLogoIcon;
+            const logoText = document.getElementById('logoText').textContent;
+            const logoImg = document.getElementById('logoImg').src;
+            
+            let logoData = {
+                text: logoText,
+                icon: logoIcon,
+                type: document.getElementById('logoImg').style.display === 'block' ? 'image' : 'icon'
+            };
+            
+            if (logoData.type === 'image' && logoImg) {
+                logoData.imageData = logoImg;
+            }
+            
+            if (document.getElementById('customIcon').value) {
+                logoData.customIcon = document.getElementById('customIcon').value;
+            }
+            
+            localStorage.setItem('artistaPoliglotta_logo', JSON.stringify(logoData));
+
+            // Salva libri
+            localStorage.setItem('artistaPoliglotta_books', JSON.stringify(books));
+
+            // Salva testi
+            const texts = {
+                'heroTitle': document.getElementById('heroTitle').textContent,
+                'heroDescription': document.getElementById('heroDescription').textContent,
+                'heroCta': document.getElementById('heroCta').textContent,
+                'booksTitle': document.getElementById('booksTitle').textContent
+            };
+            localStorage.setItem('artistaPoliglotta_texts', JSON.stringify(texts));
+        }
+
+        function setupIconOptions() {
+            const container = document.getElementById('iconOptions');
+            container.innerHTML = '';
+            
+            iconOptions.forEach(icon => {
+                const div = document.createElement('div');
+                div.className = 'icon-option';
+                div.innerHTML = `<i class="fas fa-${icon}"></i>`;
+                div.addEventListener('click', () => selectIcon(icon));
+                container.appendChild(div);
+            });
+        }
+
+        function selectIcon(icon) {
+            // Deseleziona tutte le icone
+            document.querySelectorAll('.icon-option').forEach(el => el.classList.remove('selected'));
+            
+            // Seleziona l'icona cliccata
+            event.target.closest('.icon-option').classList.add('selected');
+            
+            // Aggiorna preview
+            document.getElementById('logoPreviewIcon').className = `fas fa-${icon}`;
+            document.getElementById('customIcon').value = icon;
+            
+            // Nascondi eventuale immagine logo e mostra icona
+            document.getElementById('logoPreviewIcon').style.display = 'block';
+            document.getElementById('logoPreviewImg').style.display = 'none';
+            
+            // Reset file upload
+            document.getElementById('logoFileInput').value = '';
+            document.getElementById('logoFileInfo').style.display = 'none';
+            currentLogoFile = null;
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Verifica il formato del file
+            const fileName = file.name.toLowerCase();
+            const isValidFormat = CONFIG.acceptedLogoFormats.some(format => fileName.endsWith(format));
+            
+            if (!isValidFormat) {
+                showNotification(`Formato non valido. Usa: ${CONFIG.acceptedLogoFormats.join(', ')}`, 'error');
+                event.target.value = '';
+                return;
+            }
+            
+            // Verifica dimensione del file (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                showNotification('File troppo grande. Dimensione massima: 2MB', 'error');
+                event.target.value = '';
+                return;
+            }
+            
+            currentLogoFile = file;
+            
+            // Mostra informazioni sul file
+            document.getElementById('logoFileName').textContent = file.name;
+            document.getElementById('logoFileSize').textContent = formatFileSize(file.size);
+            document.getElementById('logoFileInfo').style.display = 'block';
+            
+            // Leggi le dimensioni dell'immagine
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    document.getElementById('logoFileDimensions').textContent = `${img.width}x${img.height} pixel`;
+                    
+                    // Verifica se le dimensioni superano il limite
+                    if (img.width > CONFIG.maxLogoSize || img.height > CONFIG.maxLogoSize) {
+                        showNotification(`Attenzione: l'immagine sarà ridimensionata a ${CONFIG.maxLogoSize}x${CONFIG.maxLogoSize} pixel`, 'info');
+                    }
+                    
+                    // Mostra anteprima
+                    document.getElementById('logoPreviewImg').src = e.target.result;
+                    document.getElementById('logoPreviewImg').style.display = 'block';
+                    document.getElementById('logoPreviewIcon').style.display = 'none';
+                    
+                    // Deseleziona tutte le icone
+                    document.querySelectorAll('.icon-option').forEach(el => el.classList.remove('selected'));
+                    document.getElementById('customIcon').value = '';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+            else return (bytes / 1048576).toFixed(2) + ' MB';
+        }
+
+        function setupEventListeners() {
+            // Settings button
+            document.getElementById('settingsBtn').addEventListener('click', () => {
+                document.getElementById('adminModal').style.display = 'flex';
+                if (currentUser && currentUser.loggedIn) {
+                    showAdminPanels();
+                }
+            });
+
+            // Close admin modal
+            document.getElementById('closeAdminModal').addEventListener('click', () => {
+                document.getElementById('adminModal').style.display = 'none';
+            });
+
+            // Close modals on outside click
+            window.addEventListener('click', (e) => {
+                if (e.target.id === 'adminModal') {
+                    document.getElementById('adminModal').style.display = 'none';
+                }
+                if (e.target.id === 'bookPreviewModal') {
+                    document.getElementById('bookPreviewModal').style.display = 'none';
+                }
+                if (e.target.id === 'passwordModal') {
+                    document.getElementById('passwordModal').style.display = 'none';
+                }
+            });
+
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (username === CONFIG.adminUsername && password === CONFIG.adminPassword) {
+                    currentUser = { username, loggedIn: true };
+                    localStorage.setItem('artistaPoliglotta_user', JSON.stringify(currentUser));
+                    showNotification('Accesso effettuato con successo!', 'success');
+                    showAdminPanels();
+                    showLogoutButton();
+                    document.getElementById('loginForm').reset();
+                } else {
+                    showNotification('Credenziali non valide', 'error');
+                }
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                currentUser = null;
+                localStorage.removeItem('artistaPoliglotta_user');
+                showNotification('Logout effettuato', 'info');
+                hideLogoutButton();
+                document.getElementById('adminModal').style.display = 'none';
+            });
+
+            // Admin tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+
+            // Save logo
+            document.getElementById('saveLogoBtn').addEventListener('click', () => {
+                const icon = document.getElementById('customIcon').value || CONFIG.defaultLogoIcon;
+                const text = document.getElementById('logoTextInput').value || CONFIG.defaultLogoText;
+                
+                // Se è stato caricato un file, processalo
+                if (currentLogoFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            // Crea un canvas per ridimensionare l'immagine se necessario
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            
+                            // Calcola le nuove dimensioni mantenendo le proporzioni
+                            let width = img.width;
+                            let height = img.height;
+                            
+                            if (width > CONFIG.maxLogoSize || height > CONFIG.maxLogoSize) {
+                                const ratio = Math.min(CONFIG.maxLogoSize / width, CONFIG.maxLogoSize / height);
+                                width = Math.floor(width * ratio);
+                                height = Math.floor(height * ratio);
+                            }
+                            
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(img, 0, 0, width, height);
+                            
+                            // Ottieni l'immagine ridimensionata come data URL
+                            const resizedImageData = canvas.toDataURL(currentLogoFile.type);
+                            
+                            // Aggiorna logo principale
+                            document.getElementById('logoIcon').style.display = 'none';
+                            document.getElementById('logoImg').style.display = 'block';
+                            document.getElementById('logoImg').src = resizedImageData;
+                            document.getElementById('logoText').textContent = text;
+                            
+                            // Aggiorna preview
+                            document.getElementById('logoPreviewIcon').style.display = 'none';
+                            document.getElementById('logoPreviewImg').style.display = 'block';
+                            document.getElementById('logoPreviewImg').src = resizedImageData;
+                            document.getElementById('logoPreviewText').textContent = text;
+                            
+                            // Salva
+                            saveToLocalStorage();
+                            showNotification('Logo salvato con successo!', 'success');
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(currentLogoFile);
+                } else {
+                    // Logo è un'icona FontAwesome
+                    document.getElementById('logoIcon').style.display = 'block';
+                    document.getElementById('logoImg').style.display = 'none';
+                    document.getElementById('logoIcon').className = `fas fa-${icon}`;
+                    document.getElementById('logoText').textContent = text;
+                    
+                    // Aggiorna preview
+                    document.getElementById('logoPreviewIcon').style.display = 'block';
+                    document.getElementById('logoPreviewIcon').className = `fas fa-${icon}`;
+                    document.getElementById('logoPreviewImg').style.display = 'none';
+                    document.getElementById('logoPreviewText').textContent = text;
+                    
+                    // Salva
+                    saveToLocalStorage();
+                    showNotification('Logo salvato con successo!', 'success');
+                }
+            });
+
+            // Save backgrounds
+            document.getElementById('saveBgBtn').addEventListener('click', () => {
+                const heroBg = document.getElementById('heroBgUrl').value;
+                const booksBg = document.getElementById('booksBgUrl').value;
+                
+                if (heroBg) {
+                    document.querySelector('.hero').style.backgroundImage = `url('${heroBg}'), var(--indigo-gradient)`;
+                    document.getElementById('heroBgPreview').style.backgroundImage = `url('${heroBg}')`;
+                } else {
+                    document.querySelector('.hero').style.backgroundImage = 'var(--indigo-gradient)';
+                }
+                
+                if (booksBg) {
+                    document.getElementById('books').style.backgroundImage = `url('${booksBg}')`;
+                    document.getElementById('booksBgPreview').style.backgroundImage = `url('${booksBg}')`;
+                } else {
+                    document.getElementById('books').style.backgroundImage = 'none';
+                    document.getElementById('books').style.backgroundColor = 'var(--light-color)';
+                }
+                
+                // Salva nei localStorage
+                localStorage.setItem('artistaPoliglotta_backgrounds', JSON.stringify({
+                    hero: heroBg,
+                    books: booksBg
+                }));
+                
+                showNotification('Sfondi salvati con successo!', 'success');
+            });
+
+            // Add book form
+            document.getElementById('addBookForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newBook = {
+                    id: books.length ? Math.max(...books.map(b => b.id)) + 1 : 1,
+                    title: document.getElementById('bookTitle').value,
+                    description: document.getElementById('bookDescription').value,
+                    synopsis: document.getElementById('bookSynopsis').value,
+                    prologue: document.getElementById('bookPrologue').value,
+                    backCover: document.getElementById('bookBackCover').value,
+                    price: parseFloat(document.getElementById('bookPrice').value),
+                    image: document.getElementById('bookImage').value
+                };
+                
+                if (editingBookId) {
+                    // Modifica libro esistente
+                    const index = books.findIndex(b => b.id === editingBookId);
+                    if (index !== -1) {
+                        books[index] = { ...books[index], ...newBook, id: editingBookId };
+                    }
+                    editingBookId = null;
+                    showNotification('Libro modificato con successo!', 'success');
+                } else {
+                    // Aggiungi nuovo libro
+                    books.push(newBook);
+                    showNotification('Libro aggiunto con successo!', 'success');
+                }
+                
+                saveToLocalStorage();
+                renderBooks();
+                renderBooksList();
+                document.getElementById('addBookForm').reset();
+            });
+
+            // Save all texts
+            document.getElementById('saveAllTexts').addEventListener('click', () => {
+                saveToLocalStorage();
+                showNotification('Testi salvati con successo!', 'success');
+            });
+
+            // Social form
+            document.getElementById('socialForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Qui andrebbe implementato il salvataggio dei link social
+                showNotification('Link social salvati!', 'success');
+            });
+
+            // Forgot password
+            document.getElementById('forgotPassword').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('adminModal').style.display = 'none';
+                document.getElementById('passwordModal').style.display = 'flex';
+            });
+
+            // Close password modal
+            document.getElementById('closePasswordModal').addEventListener('click', () => {
+                document.getElementById('passwordModal').style.display = 'none';
+            });
+
+            // Password reset form
+            document.getElementById('passwordResetForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('resetEmail').value;
+                showNotification(`Link di recupero inviato a ${CONFIG.recoveryEmail}`, 'info');
+                document.getElementById('passwordModal').style.display = 'none';
+                document.getElementById('resetEmail').value = '';
+            });
+
+            // Close book preview
+            document.getElementById('closeBookPreview').addEventListener('click', () => {
+                document.getElementById('bookPreviewModal').style.display = 'none';
+            });
+        }
+
+        function showAdminPanels() {
+            // Mostra tutte le tab tranne login
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                if (tab.getAttribute('data-tab') !== 'login') {
+                    tab.style.display = 'block';
+                }
+            });
+            
+            // Nascondi login panel e mostra logo panel
+            document.getElementById('loginPanel').classList.remove('active');
+            document.querySelector('[data-tab="login"]').classList.remove('active');
+            
+            document.getElementById('logoPanel').classList.add('active');
+            document.querySelector('[data-tab="logo"]').classList.add('active');
+        }
+
+        function switchTab(tabName) {
+            // Nascondi tutti i panel
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Rimuovi active da tutte le tab
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostra il panel selezionato
+            document.getElementById(`${tabName}Panel`).classList.add('active');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            
+            // Se è la tab libri, carica la lista
+            if (tabName === 'books') {
+                renderBooksList();
+            }
+            
+            // Se è la tab testi, carica i campi
+            if (tabName === 'texts') {
+                loadTextsForEditing();
+            }
+        }
+
+        function showLogoutButton() {
+            document.getElementById('logoutBtn').style.display = 'flex';
+        }
+
+        function hideLogoutButton() {
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+
+        function renderBooks() {
+            const container = document.getElementById('booksContainer');
+            container.innerHTML = '';
+            
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    <div class="book-card-actions">
+                        <button class="card-action-btn preview" onclick="showBookPreview(${book.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="card-action-btn share" onclick="shareBook(${book.id})">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                    <div class="book-image">
+                        <img src="${book.image}" alt="${book.title}">
+                    </div>
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <p>${book.description}</p>
+                        ${book.synopsis ?  '' : ''}
+                        <div class="book-price">€${book.price.toFixed(2)}</div>
+                        <button class="buy-button" onclick="buyBook(${book.id})">
+                            <i class="fas fa-shopping-cart"></i> Acquista Ora
+                        </button>
+                    </div>
+                `;
+                container.appendChild(bookCard);
+            });
+        }
+
+        function renderBooksList() {
+            const container = document.getElementById('booksList');
+            container.innerHTML = '';
+            
+            if (books.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#666;">Nessun libro ancora aggiunto.</p>';
+                return;
+            }
+            
+            books.forEach(book => {
+                const bookItem = document.createElement('div');
+                bookItem.className = 'book-item';
+                bookItem.innerHTML = `
+                    <div class="book-item-info">
+                        <div class="book-item-title">${book.title}</div>
+                        <p>${book.description.substring(0, 100)}...</p>
+                        <small>€${book.price.toFixed(2)}</small>
+                    </div>
+                    <div class="book-item-actions">
+                        <button class="edit-btn" onclick="editBook(${book.id})">
+                            <i class="fas fa-edit"></i> Modifica
+                        </button>
+                        <button class="delete-btn" onclick="deleteBook(${book.id})">
+                            <i class="fas fa-trash"></i> Elimina
+                        </button>
+                    </div>
+                `;
+                container.appendChild(bookItem);
+            });
+        }
+
+        function editBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            editingBookId = bookId;
+            
+            // Popola il form
+            document.getElementById('bookTitle').value = book.title;
+            document.getElementById('bookDescription').value = book.description;
+            document.getElementById('bookSynopsis').value = book.synopsis || '';
+            document.getElementById('bookPrologue').value = book.prologue || '';
+            document.getElementById('bookBackCover').value = book.backCover || '';
+            document.getElementById('bookPrice').value = book.price;
+            document.getElementById('bookImage').value = book.image;
+            
+            // Scorri fino al form
+            document.getElementById('addBookForm').scrollIntoView({ behavior: 'smooth' });
+            
+            // Cambia testo del pulsante
+            document.querySelector('#addBookForm button').textContent = 'Aggiorna Libro';
+            
+            showNotification('Modifica il libro e salva le modifiche', 'info');
+        }
+
+        function deleteBook(bookId) {
+            if (confirm('Sei sicuro di voler eliminare questo libro?')) {
+                books = books.filter(b => b.id !== bookId);
+                saveToLocalStorage();
+                renderBooks();
+                renderBooksList();
+                showNotification('Libro eliminato', 'success');
+            }
+        }
+
+        function showBookPreview(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const container = document.getElementById('bookPreviewContent');
+            container.innerHTML = `
+                <h2>${book.title}</h2>
+                <div style="display: flex; gap: 30px; margin: 30px 0;">
+                    <div style="flex: 1;">
+                        <img src="${book.image}" alt="${book.title}" style="width: 100%; border-radius: 10px;">
+                    </div>
+                    <div style="flex: 2;">
+                        <h3>Descrizione</h3>
+                        <p>${book.description}</p>
+                        
+                        ${book.synopsis ? `
+                        <h3 style="margin-top: 20px;">Sinossi</h3>
+                        <p>${book.synopsis}</p>
+                        ` : ''}
+                        
+                        ${book.prologue ? `
+                        <h3 style="margin-top: 20px;">Prologo</h3>
+                        <p><em>${book.prologue}</em></p>
+                        ` : ''}
+                        
+                        <div class="book-price" style="margin: 30px 0; font-size: 2.5rem;">€${book.price.toFixed(2)}</div>
+                        
+                        <button class="buy-button" onclick="buyBook(${book.id})" style="max-width: 300px;">
+                            <i class="fas fa-shopping-cart"></i> Acquista Ora
+                        </button>
+                    </div>
+                </div>
+                
+                ${book.backCover ? `
+                <div style="margin-top: 40px; padding: 20px; background: #f9f9ff; border-radius: 10px;">
+                    <h3>Quarta di Copertina</h3>
+                    <p>${book.backCover}</p>
+                </div>
+                ` : ''}
+                
+                <div class="social-share-buttons">
+                    <button class="share-btn share-facebook" onclick="shareOnFacebook('${book.title}')">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="share-btn share-twitter" onclick="shareOnTwitter('${book.title}')">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button class="share-btn share-linkedin" onclick="shareOnLinkedIn('${book.title}')">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </button>
+                    <button class="share-btn share-whatsapp" onclick="shareOnWhatsApp('${book.title}')">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('bookPreviewModal').style.display = 'flex';
+        }
+
+        function buyBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            showNotification(`Acquisto di "${book.title}" aggiunto al carrello!`, 'success');
+            // Qui andrebbe integrato un sistema di e-commerce reale
+        }
+
+        function shareBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            showBookPreview(bookId);
+        }
+
+        function shareOnFacebook(title) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+        }
+
+        function shareOnTwitter(title) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+
+        function shareOnLinkedIn(title) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta!`);
+            window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`, '_blank');
+        }
+
+        function shareOnWhatsApp(title) {
+            const text = encodeURIComponent(`Scopri "${title}" su Artista Poliglotta! ${window.location.href}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function loadTextsForEditing() {
+            const container = document.getElementById('textsEditContainer');
+            container.innerHTML = '';
+            
+            const texts = [
+                { id: 'heroTitle', label: 'Titolo Hero', value: document.getElementById('heroTitle').textContent },
+                { id: 'heroDescription', label: 'Descrizione Hero', value: document.getElementById('heroDescription').textContent },
+                { id: 'heroCta', label: 'Testo Bottone Hero', value: document.getElementById('heroCta').textContent },
+                { id: 'booksTitle', label: 'Titolo Sezione Libri', value: document.getElementById('booksTitle').textContent }
+            ];
+            
+            texts.forEach(text => {
+                const div = document.createElement('div');
+                div.className = 'text-edit-item';
+                div.innerHTML = `
+                    <label for="edit-${text.id}">${text.label}</label>
+                    <textarea id="edit-${text.id}">${text.value}</textarea>
+                `;
+                container.appendChild(div);
+                
+                // Aggiungi event listener per salvataggio in tempo reale
+                document.getElementById(`edit-${text.id}`).addEventListener('input', (e) => {
+                    document.getElementById(text.id).textContent = e.target.value;
+                });
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            container.appendChild(notification);
+            
+            // Mostra la notifica
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            // Rimuovi dopo 5 secondi
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

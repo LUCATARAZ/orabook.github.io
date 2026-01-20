@@ -1,11 +1,13 @@
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config(); // AGGIUNGI QUESTA RIGA
 const app = express();
 app.use(express.json());
 
-const GITHUB_TOKEN = 'tuo_token_github';
-const REPO_OWNER = 'tuo_username';
-const REPO_NAME = 'tuo_repository';
+// USA VARIABILI D'AMBIENTE (sicuro!)
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const REPO_OWNER = process.env.REPO_OWNER || 'GotToGods'; // METTI IL TUO USERNAME
+const REPO_NAME = process.env.REPO_NAME || 'ora-artista'; // METTI IL NOME REPO
 
 app.post('/update-file', async (req, res) => {
   const { path, content, message } = req.body;
@@ -30,10 +32,17 @@ app.post('/update-file', async (req, res) => {
       { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
     );
     
-    res.json({ success: true });
+    res.json({ success: true, commit: update.data.commit.html_url });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('GitHub API error:', error.response?.data || error.message);
+    res.status(500).json({ 
+      error: error.response?.data?.message || error.message 
+    });
   }
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+// AGGIUNGI QUESTA PER FRONTEND
+app.use(express.static('public')); // Se hai file statici
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
